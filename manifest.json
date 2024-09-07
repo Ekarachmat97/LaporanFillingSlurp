@@ -1,0 +1,22 @@
+{
+    "name": "Laporan Total Produksi Filling SLURP",
+    "short_name": "Laporan SLURP",
+    "description": "Aplikasi untuk laporan total produksi filling SLURP",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "icons": [
+      {
+        "src": "https://www.kindairy.com/themes/kindairy/img/slurp/slurp-about.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "https://www.kindairy.com/themes/kindairy/img/slurp/slurp-about.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  
