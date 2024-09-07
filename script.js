@@ -123,7 +123,7 @@ function add_report() {
 
     // Validasi apakah ada input yang kosong
     if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa || !expiredDate || !totalCounter || !penggunaanNitrogen || !penggunaanPitaCoding || !sisaPitaCoding || 
-        !totalKeranjang || !estWaktuFilling || !actWaktuFilling || !totalLossesProduct || !totalDowntime) {
+        !totalKeranjang || !totalLossesProduct || !totalDowntime) {
         
         alert('Harap isi semua bidang sebelum menambahkan laporan.');
         return;  // Jika ada yang kosong, hentikan fungsi
