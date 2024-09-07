@@ -122,8 +122,7 @@ function add_report() {
     const informasiDowntime = document.getElementById('informasi_downtime').value;
 
     // Validasi apakah ada input yang kosong
-    if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa || !expiredDate || !startFilling || 
-        !stopFilling || !totalCounter || !penggunaanNitrogen || !penggunaanPitaCoding || !sisaPitaCoding || 
+    if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa || !expiredDate || !totalCounter || !penggunaanNitrogen || !penggunaanPitaCoding || !sisaPitaCoding || 
         !totalKeranjang || !estWaktuFilling || !actWaktuFilling || !totalLossesProduct || !totalDowntime) {
         
         alert('Harap isi semua bidang sebelum menambahkan laporan.');
@@ -133,7 +132,7 @@ function add_report() {
    // Format hasil laporan
 const laporan = `
 *LAPORAN FILLING YOGURT SLURP*
-*LAPORAN AKHIR*
+*${jenisLaporan}*
 -----------------------------------
 Tanggal: ${tanggal}
 Waktu/Shift: ${waktuShift}
