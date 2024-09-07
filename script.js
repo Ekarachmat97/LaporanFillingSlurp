@@ -192,6 +192,19 @@ function send_report() {
     window.open(whatsappURL, '_blank');
 }
 
+function toggleFillingFields() {
+    const jenisLaporan = document.getElementById('jenis_laporan').value;
+    const fillingFields = document.getElementById('filling_fields');
+
+    if (jenisLaporan === 'Laporan Shift') {
+        // Sembunyikan field start_filling dan stop_filling jika pilihannya 'Laporan Shift'
+        fillingFields.classList.add('hidden');
+    } else {
+        // Tampilkan kembali jika 'Laporan Akhir' dipilih
+        fillingFields.classList.remove('hidden');
+    }
+}
+
 
 // Panggil fungsi calculateEstimatedFillingTime setelah halaman dimuat
 window.onload = function() {
