@@ -173,13 +173,12 @@ function send_report() {
     }
 
     // Format nomor tujuan WhatsApp (gunakan format internasional tanpa tanda +)
-    const phoneNumber = '628XXXXXXXXX';  // Ganti dengan nomor WhatsApp tujuan
-
+    
     // Encode teks laporan agar sesuai untuk URL
     const encodedLaporan = encodeURIComponent(laporanText);
 
     // URL untuk membuka WhatsApp Web atau aplikasi WhatsApp
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedLaporan}`;
+    const whatsappURL = `https://wa.me/?text=${encodedLaporan}`;
 
     // Redirect user ke WhatsApp
     window.open(whatsappURL, '_blank');
