@@ -134,25 +134,25 @@ function add_report() {
     const laporan = `
         <h3>LAPORAN FILLING YOGURT SLURP</h3>
         <H3>LAPORAN AKHIR</h3>
-        <p><strong>Tanggal               :</strong> ${tanggal}</p>
-        <p><strong>Waktu/Shift           :</strong> ${waktuShift}</p>
-        <p><strong>Mesin                 :</strong> ${mesin}</p>
-        <p><strong>Qty Produksi          :</strong> ${qtyProduksi} Ton</p>
-        <p><strong>Batch                 :</strong> ${batch}</p>
-        <p><strong>Varian Rasa           :</strong> ${varianRasa}</p>
-        <p><strong>Expired Date          :</strong> ${expiredDate}</p>
-        <p><strong>Start Filling         :</strong> ${startFilling}</p>
-        <p><strong>Stop Filling          :</strong> ${stopFilling}</p>
-        <p><strong>Total Counter         :</strong> ${totalCounter} Pcs</p>
-        <p><strong>Penggunaan Nitrogen   :</strong> ${penggunaanNitrogen}</p>
-        <p><strong>Penggunaan Pita Coding:</strong> ${penggunaanPitaCoding} Pcs</p>
-        <p><strong>Sisa Pita Coding      :</strong> ${sisaPitaCoding} Pcs</p>
-        <p><strong>Total Keranjang       :</strong> ${totalKeranjang} Keranjang</p>
-        <p><strong>Est Waktu Filling     :</strong> ${estWaktuFilling}</p>
-        <p><strong>Act Waktu Filling     :</strong> ${actWaktuFilling}</p>
-        <p><strong>Total Losses Product  :</strong> ${totalLossesProduct} Kg</p>
-        <p><strong>Total Downtime        :</strong> ${totalDowntime}</p>
-        <p><strong>Informasi Downtime    :</strong> ${informasiDowntime}</p>
+        <p>*Tanggal*               : ${tanggal}</p>
+        <p>*Waktu/Shift*           : ${waktuShift}</p>
+        <p>*Mesin*                 : ${mesin}</p>
+        <p>*Qty Produksi*          : ${qtyProduksi} Ton</p>
+        <p>*Batch*                 : ${batch}</p>
+        <p>*Varian Rasa*           : ${varianRasa}</p>
+        <p>*Expired Date*          : ${expiredDate}</p>
+        <p>*Start Filling*         : ${startFilling}</p>
+        <p>*Stop Filling*          : ${stopFilling}</p>
+        <p>*Total Counter*         : ${totalCounter} Pcs</p>
+        <p>*Penggunaan Nitrogen*   : ${penggunaanNitrogen}</p>
+        <p>*Penggunaan Pita Coding*: ${penggunaanPitaCoding} Pcs</p>
+        <p>*Sisa Pita Coding*      : ${sisaPitaCoding} Pcs</p>
+        <p>*Total Keranjang*       : ${totalKeranjang} Keranjang</p>
+        <p>*Est Waktu Filling*     : ${estWaktuFilling}</p>
+        <p>*Act Waktu Filling*     : ${actWaktuFilling}</p>
+        <p>*Total Losses Product*  : ${totalLossesProduct} Kg</p>
+        <p>*Total Downtime*        : ${totalDowntime}</p>
+        <p>*Informasi Downtime*    : ${informasiDowntime}</p>
         <hr>
     `;
 
