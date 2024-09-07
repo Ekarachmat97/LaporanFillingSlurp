@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Total Produksi Filling SLURP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h2>Laporan Total Produksi Filling SLURP</h2>
+
+    <form action="/submit-laporan" method="POST">
+        <div class="form-group">
+            <label for="tanggal">Tanggal</label>
+            <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+
+        <div class="form-group">
+            <label for="waktu_shift">Waktu/Shift</label>
+            <select id="waktu_shift" name="waktu_shift" required>
+                <option value="">Pilih Shift</option>
+                <option value="Shift 1">Shift 1</option>
+                <option value="Shift 2">Shift 2</option>
+                <option value="Shift 3">Shift 3</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="mesin">Mesin</label>
+            <select id="mesin" name="mesin" required>
+                <option value="">Pilih Mesin</option>
+                <option value="Shift 1">Line 1 AJS</option>
+                <option value="Shift 2">Line 2 AJS</option>
+                <option value="Shift 3">Line 3 AJS</option>
+                <option value="Shift 1">Line 4 AJS</option>
+                <option value="Shift 2">Line 5 AJS</option>
+                <option value="Shift 3">Line 6 AJS</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="qty_produksi">Qty Produksi (Kg)</label>
+            <input type="number" id="qty_produksi" name="qty_produksi" required>
+        </div>
+        
+
+        <div class="form-group">
+            <label for="batch">Batch</label>
+            <input type="number" id="batch" name="batch" required>
+        </div>
+
+        <div class="form-group">
+            <label for="varian_rasa">Varian Rasa</label>
+            <input type="text" id="varian_rasa" name="varian_rasa" required>
+        </div>
+
+        <div class="form-group">
+            <label for="expired_date">Expired Date</label>
+            <input type="text" id="expired_date" name="expired_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="start_filling">Start Filling</label>
+            <input type="time" id="start_filling" name="start_filling" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stop_filling">Stop Filling</label>
+            <input type="time" id="stop_filling" name="stop_filling" required>
+        </div>
+
+        <div class="form-group">
+            <label for="total_counter">Total Counter</label>
+            <input type="number" id="total_counter" name="total_counter" required>
+        </div>
+
+        <div class="form-group">
+            <label for="penggunaan_nitrogen">Penggunaan Nitrogen</label>
+            <input type="text" id="penggunaan_nitrogen" name="penggunaan_nitrogen" required>
+        </div>
+
+        <div class="form-group">
+            <label for="penggunaan_pita_coding">Penggunaan Pita Coding</label>
+            <input type="text" id="penggunaan_pita_coding" name="penggunaan_pita_coding" required>
+        </div>
+
+        <div class="form-group">
+            <label for="sisa_pita_coding">Sisa Pita Coding</label>
+            <input type="number" id="sisa_pita_coding" name="sisa_pita_coding" required>
+        </div>
+
+        <div class="form-group">
+            <label for="total_keranjang">Total Keranjang</label>
+            <input type="number" id="total_keranjang" name="total_keranjang" required>
+        </div>
+
+        <div class="form-group">
+            <label for="est_waktu_filling">Est Waktu Filling</label>
+            <input type="text" id="est_waktu_filling" name="est_waktu_filling" required>
+        </div>
+
+        <div class="form-group">
+            <label for="act_waktu_filling">Act Waktu Filling</label>
+            <input type="text" id="act_waktu_filling" name="act_waktu_filling" required>
+        </div>
+
+        <div class="form-group">
+            <label for="total_losses_product">Total Losses Product</label>
+            <input type="text" id="total_losses_product" name="total_losses_product" required>
+        </div>
+
+        <div class="form-group">
+            <label for="total_downtime">Total Downtime</label>
+            <input type="text" id="total_downtime" name="total_downtime" required>
+        </div>
+
+        <div class="form-group">
+            <label for="informasi_downtime">Informasi Downtime</label>
+            <textarea id="informasi_downtime" name="informasi_downtime"></textarea>
+        </div>
+
+        <div id="hasil_laporan"></div>
+    </form>
+            <br>
+            <br>
+            <button onclick="add_report()">Tambah Laporan</button>
+            <br><br>
+            <button onclick="send_report()">Kirim Laporan</button>
+            <div id="hasil_laporan"></div>
+            
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
