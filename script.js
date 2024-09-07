@@ -100,7 +100,7 @@ function add_report() {
     const form = document.querySelector('form');
     const hasilLaporanDiv = document.getElementById('hasil_laporan');
 
-    // Ambil nilai dari semua input
+    // Ambil nilai dari semua input tanpa `\n` setelah `.value`
     const tanggal = document.getElementById('tanggal').value;
     const waktuShift = document.getElementById('waktu_shift').value;
     const mesin = document.getElementById('mesin').value;
@@ -130,31 +130,35 @@ function add_report() {
         return;  // Jika ada yang kosong, hentikan fungsi
     }
 
-    // Format hasil laporan
-    const laporan = `
-        <h3>LAPORAN FILLING YOGURT SLURP</h3>
-        <H3>LAPORAN AKHIR</h3>
-        <p>*Tanggal*               : ${tanggal}</p>
-        <p>*Waktu/Shift*           : ${waktuShift}</p>
-        <p>*Mesin*                 : ${mesin}</p>
-        <p>*Qty Produksi*          : ${qtyProduksi} Ton</p>
-        <p>*Batch*                 : ${batch}</p>
-        <p>*Varian Rasa*           : ${varianRasa}</p>
-        <p>*Expired Date*          : ${expiredDate}</p>
-        <p>*Start Filling*         : ${startFilling}</p>
-        <p>*Stop Filling*          : ${stopFilling}</p>
-        <p>*Total Counter*         : ${totalCounter} Pcs</p>
-        <p>*Penggunaan Nitrogen*   : ${penggunaanNitrogen}</p>
-        <p>*Penggunaan Pita Coding*: ${penggunaanPitaCoding} Pcs</p>
-        <p>*Sisa Pita Coding*      : ${sisaPitaCoding} Pcs</p>
-        <p>*Total Keranjang*       : ${totalKeranjang} Keranjang</p>
-        <p>*Est Waktu Filling*     : ${estWaktuFilling}</p>
-        <p>*Act Waktu Filling*     : ${actWaktuFilling}</p>
-        <p>*Total Losses Product*  : ${totalLossesProduct} Kg</p>
-        <p>*Total Downtime*        : ${totalDowntime}</p>
-        <p>*Informasi Downtime*    : ${informasiDowntime}</p>
-        <hr>
-    `;
+   // Format hasil laporan
+const laporan = `
+*LAPORAN FILLING YOGURT SLURP*
+*LAPORAN AKHIR*
+-----------------------------------
+Tanggal: ${tanggal}
+Waktu/Shift: ${waktuShift}
+Mesin: ${mesin}
+-----------------------------------
+Qty Produksi: ${qtyProduksi} Ton
+Batch: ${batch}
+Varian Rasa: ${varianRasa}
+Expired Date: ${expiredDate}
+Start Filling: ${startFilling}
+Stop Filling: ${stopFilling}
+Total Counter: ${totalCounter} Pcs
+Penggunaan Nitrogen: ${penggunaanNitrogen}
+Penggunaan Pita Coding: ${penggunaanPitaCoding} Pcs
+Sisa Pita Coding: ${sisaPitaCoding} Pcs
+Total Keranjang: ${totalKeranjang} Keranjang
+Est Waktu Filling: ${estWaktuFilling}
+Act Waktu Filling: ${actWaktuFilling}
+Total Losses Product: ${totalLossesProduct} Kg
+Total Downtime: ${totalDowntime}
+Informasi Downtime: 
+${informasiDowntime}
+-----------------------------------
+`;
+
 
     // Tambahkan hasil laporan ke elemen hasil_laporan
     hasilLaporanDiv.innerHTML += laporan;
@@ -163,27 +167,30 @@ function add_report() {
     form.reset();
 }
 
+
 function send_report() {
     const hasilLaporanDiv = document.getElementById('hasil_laporan');
-    let laporanText = hasilLaporanDiv.innerText; // Ambil teks dari div hasil_laporan
     
-    if (!laporanText.trim()) {
+    // Ambil teks dari div hasil_laporan menggunakan textContent untuk hasil yang lebih konsisten
+    let laporanText = hasilLaporanDiv.textContent.trim();
+
+    // Validasi jika tidak ada laporan yang akan dikirim
+    if (!laporanText) {
         alert("Tidak ada laporan untuk dikirim.");
         return;
     }
 
-    // Format nomor tujuan WhatsApp (gunakan format internasional tanpa tanda +)
+    // Encode teks laporan agar sesuai dengan format URL dan WhatsApp
+    const encodedLaporan = encodeURIComponent(laporanText)
+        .replace(/%20/g, '+')  // Mengganti spasi dengan plus untuk konsistensi URL encoding
+        .replace(/%0A/g, '%0A');  // Pertahankan newline agar sesuai dengan format teks WhatsApp
     
-    // Encode teks laporan agar sesuai untuk URL
-    const encodedLaporan = encodeURIComponent(laporanText);
-
     // URL untuk membuka WhatsApp Web atau aplikasi WhatsApp
     const whatsappURL = `https://wa.me/?text=${encodedLaporan}`;
 
     // Redirect user ke WhatsApp
     window.open(whatsappURL, '_blank');
 }
-
 
 
 // Panggil fungsi calculateEstimatedFillingTime setelah halaman dimuat
