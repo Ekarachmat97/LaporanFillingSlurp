@@ -130,19 +130,28 @@ function add_report() {
         return;  // Jika ada yang kosong, hentikan fungsi
     }
 
-    // Format hasil laporan untuk Laporan Akhir
-    let laporan = `
+// Format hasil laporan untuk Laporan Akhir dan Laporan Shift
+let laporan = `
 *LAPORAN FILLING YOGURT SLURP*
 *${jenisLaporan}*
 ------------------------------------------------
 Tanggal: ${tanggal}
-Waktu/Shift: ${waktuShift}
+Shift/Waktu: ${waktuShift}
 Mesin: ${mesin}
 ------------------------------------------------
 Qty Produksi: ${qtyProduksi} Kg
 Batch: ${batch}
 Varian Rasa: ${varianRasa}
 Expired Date: ${expiredDate}
+`;
+if (jenisLaporan === 'Laporan Akhir') {
+    laporan += `
+Start Filling: ${startFilling}
+Stop Filling: ${stopFilling}
+Est Waktu Filling: ${estWaktuFilling}
+Act Waktu Filling: ${actWaktuFilling}
+`;}
+laporan += `
 Total Counter: ${totalCounter} Pcs
 Penggunaan Nitrogen: ${penggunaanNitrogen}
 Penggunaan Pita Coding: ${penggunaanPitaCoding} Pcs
@@ -154,17 +163,6 @@ Informasi Downtime:
 ${informasiDowntime}
 ------------------------------------------------
 `;
-
-    // Jika jenis laporan adalah "Laporan Akhir", tambahkan field khusus Laporan Akhir
-    if (jenisLaporan === 'Laporan Akhir') {
-        laporan += `
-Start Filling: ${startFilling}
-Stop Filling: ${stopFilling}
-Est Waktu Filling: ${estWaktuFilling}
-Act Waktu Filling: ${actWaktuFilling}
------------------------------------
-        `;
-    }
 
     // Tambahkan hasil laporan ke elemen hasil_laporan
     hasilLaporanDiv.innerHTML += laporan;
@@ -224,3 +222,49 @@ window.onload = function() {
     calculateExpiredDate();  // Kalkulasi Expired Date
     
 };
+
+
+let deferredPrompt; // Variabel untuk menyimpan event sebelum install
+
+const installBtn = document.getElementById('installBtn');
+
+// Event listener untuk menangkap event "beforeinstallprompt"
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Cegah browser agar tidak langsung menampilkan prompt install
+    e.preventDefault();
+
+    // Simpan event yang tertunda
+    deferredPrompt = e;
+
+    // Tampilkan tombol install
+    installBtn.classList.add('show');
+});
+
+// Event listener untuk tombol install
+installBtn.addEventListener('click', async () => {
+    // Sembunyikan tombol install
+    installBtn.classList.remove('show');
+
+    if (deferredPrompt) {
+        // Tampilkan prompt install ke pengguna
+        deferredPrompt.prompt();
+
+        // Tunggu sampai pengguna merespon prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+        } else {
+            console.log('User dismissed the install prompt');
+        }
+
+        // Hapus prompt yang tertunda setelah digunakan
+        deferredPrompt = null;
+    }
+});
+
+// Event listener untuk mendeteksi jika aplikasi sudah diinstal
+window.addEventListener('appinstalled', () => {
+    console.log('Aplikasi telah terinstal');
+    installBtn.classList.remove('show'); // Sembunyikan tombol setelah instalasi
+});
