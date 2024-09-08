@@ -68,7 +68,7 @@ function calculateActWaktuFilling() {
         const stopTime = stopFillingInput.value;
 
         if (!startDate || !startTime || !stopDate || !stopTime) {
-            actWaktuFillingInput.value = 'Harap isi semua kolom tanggal dan waktu';
+            actWaktuFillingInput.value = '';
             return;
         }
 
@@ -101,6 +101,7 @@ function add_report() {
     const hasilLaporanDiv = document.getElementById('hasil_laporan');
 
     // Ambil nilai dari semua input tanpa `\n` setelah `.value`
+    const jenisLaporan = document.getElementById('jenis_laporan').value;
     const tanggal = document.getElementById('tanggal').value;
     const waktuShift = document.getElementById('waktu_shift').value;
     const mesin = document.getElementById('mesin').value;
@@ -108,56 +109,62 @@ function add_report() {
     const batch = document.getElementById('batch').value;
     const varianRasa = document.getElementById('varian_rasa').value;
     const expiredDate = document.getElementById('expired_date').value;
-    const startFilling = document.getElementById('start_filling').value;
-    const stopFilling = document.getElementById('stop_filling').value;
     const totalCounter = document.getElementById('total_counter').value;
     const penggunaanNitrogen = document.getElementById('penggunaan_nitrogen').value;
     const penggunaanPitaCoding = document.getElementById('penggunaan_pita_coding').value;
     const sisaPitaCoding = document.getElementById('sisa_pita_coding').value;
     const totalKeranjang = document.getElementById('total_keranjang').value;
-    const estWaktuFilling = document.getElementById('est_waktu_filling').value;
-    const actWaktuFilling = document.getElementById('act_waktu_filling').value;
     const totalLossesProduct = document.getElementById('total_losses_product').value;
     const totalDowntime = document.getElementById('total_downtime').value;
     const informasiDowntime = document.getElementById('informasi_downtime').value;
 
-    // Validasi apakah ada input yang kosong
-    if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa || !expiredDate || !totalCounter || !penggunaanNitrogen || !penggunaanPitaCoding || !sisaPitaCoding || 
-        !totalKeranjang || !totalLossesProduct || !totalDowntime) {
-        
+    // Field khusus Laporan Akhir
+    const startFilling = document.getElementById('start_filling').value;
+    const stopFilling = document.getElementById('stop_filling').value;
+    const estWaktuFilling = document.getElementById('est_waktu_filling').value;
+    const actWaktuFilling = document.getElementById('act_waktu_filling').value;
+
+    // Validasi apakah ada input yang kosong (untuk field yang diperlukan)
+    if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa || !expiredDate) {
         alert('Harap isi semua bidang sebelum menambahkan laporan.');
         return;  // Jika ada yang kosong, hentikan fungsi
     }
 
-   // Format hasil laporan
-const laporan = `
+    // Format hasil laporan untuk Laporan Akhir
+    let laporan = `
 *LAPORAN FILLING YOGURT SLURP*
 *${jenisLaporan}*
------------------------------------
+------------------------------------------------
 Tanggal: ${tanggal}
 Waktu/Shift: ${waktuShift}
 Mesin: ${mesin}
------------------------------------
-Qty Produksi: ${qtyProduksi} Ton
+------------------------------------------------
+Qty Produksi: ${qtyProduksi} Kg
 Batch: ${batch}
 Varian Rasa: ${varianRasa}
 Expired Date: ${expiredDate}
-Start Filling: ${startFilling}
-Stop Filling: ${stopFilling}
 Total Counter: ${totalCounter} Pcs
 Penggunaan Nitrogen: ${penggunaanNitrogen}
 Penggunaan Pita Coding: ${penggunaanPitaCoding} Pcs
 Sisa Pita Coding: ${sisaPitaCoding} Pcs
 Total Keranjang: ${totalKeranjang} Keranjang
-Est Waktu Filling: ${estWaktuFilling}
-Act Waktu Filling: ${actWaktuFilling}
 Total Losses Product: ${totalLossesProduct} Kg
 Total Downtime: ${totalDowntime}
 Informasi Downtime: 
 ${informasiDowntime}
------------------------------------
+------------------------------------------------
 `;
 
+    // Jika jenis laporan adalah "Laporan Akhir", tambahkan field khusus Laporan Akhir
+    if (jenisLaporan === 'Laporan Akhir') {
+        laporan += `
+Start Filling: ${startFilling}
+Stop Filling: ${stopFilling}
+Est Waktu Filling: ${estWaktuFilling}
+Act Waktu Filling: ${actWaktuFilling}
+-----------------------------------
+        `;
+    }
 
     // Tambahkan hasil laporan ke elemen hasil_laporan
     hasilLaporanDiv.innerHTML += laporan;
@@ -193,17 +200,22 @@ function send_report() {
 
 function toggleFillingFields() {
     const jenisLaporan = document.getElementById('jenis_laporan').value;
-    const fillingFields = document.getElementById('filling_fields');
+    const fillingFields = document.getElementById('filling_fields');  // Field Start dan Stop Filling
+    const timeFields = document.getElementById('time_fields');  // Field Est Waktu dan Act Waktu Filling
 
+    // Jika "Laporan Shift", sembunyikan fields Start/Stop Filling dan Est/Act Waktu Filling
     if (jenisLaporan === 'Laporan Shift') {
-        // Sembunyikan field start_filling dan stop_filling jika pilihannya 'Laporan Shift'
         fillingFields.classList.add('hidden');
+        timeFields.classList.add('hidden');
     } else {
-        // Tampilkan kembali jika 'Laporan Akhir' dipilih
+        // Jika "Laporan Akhir", tampilkan fields yang terkait
         fillingFields.classList.remove('hidden');
+        timeFields.classList.remove('hidden');
     }
 }
 
+// Panggil toggleFillingFields ketika jenis laporan diubah
+document.getElementById('jenis_laporan').addEventListener('change', toggleFillingFields);
 
 // Panggil fungsi calculateEstimatedFillingTime setelah halaman dimuat
 window.onload = function() {
