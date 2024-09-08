@@ -32,7 +32,9 @@
     
 <body>
 <div class="container">
-    <h2>Laporan Total Produksi Filling SLURP</h2>
+    <div class="button-85">
+      <h2>Laporan Filling SLURP</h2>
+    </div>
 
     <form action="/submit-laporan" method="POST">
 
@@ -54,9 +56,9 @@
             <label for="waktu_shift">Waktu/Shift</label>
             <select id="waktu_shift" name="waktu_shift" required>
                 <option value="">Pilih Shift</option>
-                <option value="Shift 1">Shift 1</option>
-                <option value="Shift 2">Shift 2</option>
-                <option value="Shift 3">Shift 3</option>
+                <option value="Shift 1 - 06:00-14:00">Shift 1</option>
+                <option value="Shift 2 - 14:00-22:00">Shift 2</option>
+                <option value="Shift 3 - 22:00-06:00">Shift 3</option>
             </select>
         </div>
 
@@ -113,12 +115,12 @@
 
         <div class="form-group">
             <label for="penggunaan_nitrogen">Penggunaan Nitrogen</label>
-            <input type="text" id="penggunaan_nitrogen" name="penggunaan_nitrogen" required>
+            <input type="number" id="penggunaan_nitrogen" name="penggunaan_nitrogen" required>
         </div>
 
         <div class="form-group">
             <label for="penggunaan_pita_coding">Penggunaan Pita Coding</label>
-            <input type="text" id="penggunaan_pita_coding" name="penggunaan_pita_coding" required>
+            <input type="number" id="penggunaan_pita_coding" name="penggunaan_pita_coding" required>
         </div>
 
         <div class="form-group">
@@ -130,7 +132,7 @@
             <label for="total_keranjang">Total Keranjang</label>
             <input type="number" id="total_keranjang" name="total_keranjang" required>
         </div>
-
+<div id="time_fields">
         <div class="form-group">
             <label for="est_waktu_filling">Est Waktu Filling</label>
             <input type="text" id="est_waktu_filling" name="est_waktu_filling" required>
@@ -140,10 +142,11 @@
             <label for="act_waktu_filling">Act Waktu Filling</label>
             <input type="text" id="act_waktu_filling" name="act_waktu_filling" required>
         </div>
+</div>
 
         <div class="form-group">
             <label for="total_losses_product">Total Losses Product</label>
-            <input type="text" id="total_losses_product" name="total_losses_product" required>
+            <input type="number" id="total_losses_product" name="total_losses_product" required>
         </div>
 
         <div class="form-group">
@@ -160,9 +163,9 @@
     </form>
             <br>
             <br>
-            <button onclick="add_report()">Tambah Laporan</button>
+            <button class="button-85" onclick="add_report()">Tambah Laporan</button>
             <br><br>
-            <button onclick="send_report()">Kirim Laporan</button>
+            <button class="button-85" onclick="send_report()">Kirim Laporan</button>
             <div id="hasil_laporan"></div>
             
 </div>
