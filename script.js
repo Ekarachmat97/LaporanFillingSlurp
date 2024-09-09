@@ -1,8 +1,9 @@
+
 // Fungsi untuk menghitung expired date
 function calculateExpiredDate() {
     const tanggalInput = document.getElementById('tanggal');  // Ambil elemen tanggal
     const expiredDateInput = document.getElementById('expired_date');  // Ambil elemen expired date
-
+    const selfLife = document.getElementById('self_life');
     // Event listener ketika tanggal diubah
     tanggalInput.addEventListener('change', function() {
         let selectedDate = new Date(tanggalInput.value);  // Ambil tanggal yang dipilih
@@ -96,6 +97,9 @@ function calculateActWaktuFilling() {
     tanggalInput.addEventListener('change', calculateDuration); // Tambahkan listener untuk tanggal
 }
 
+// Variabel untuk melacak apakah laporan pertama sudah ditambahkan
+let isFirstReport = true;
+
 function add_report() {
     const form = document.querySelector('form');
     const hasilLaporanDiv = document.getElementById('hasil_laporan');
@@ -114,6 +118,7 @@ function add_report() {
     const penggunaanPitaCoding = document.getElementById('penggunaan_pita_coding').value;
     const sisaPitaCoding = document.getElementById('sisa_pita_coding').value;
     const totalKeranjang = document.getElementById('total_keranjang').value;
+    const keteranganKeranjang = document.getElementById('keterangan_keranjang').value;
     const totalLossesProduct = document.getElementById('total_losses_product').value;
     const totalDowntime = document.getElementById('total_downtime').value;
     const informasiDowntime = document.getElementById('informasi_downtime').value;
@@ -121,42 +126,63 @@ function add_report() {
     // Field khusus Laporan Akhir
     const startFilling = document.getElementById('start_filling').value;
     const stopFilling = document.getElementById('stop_filling').value;
+    const startdateFilling = document.getElementById('startdate_filling').value;
+    const stopdateFilling = document.getElementById('stopdate_filling').value;
+    
     const estWaktuFilling = document.getElementById('est_waktu_filling').value;
     const actWaktuFilling = document.getElementById('act_waktu_filling').value;
 
     // Validasi apakah ada input yang kosong (untuk field yang diperlukan)
-    if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa || !expiredDate) {
-        alert('Harap isi semua bidang sebelum menambahkan laporan.');
+    if (!tanggal || !waktuShift || !mesin || !qtyProduksi || !batch || !varianRasa) {
+        
+        Swal.fire(`Harap isi semua bidang sebelum menambahkan laporan.`);
         return;  // Jika ada yang kosong, hentikan fungsi
     }
 
-// Format hasil laporan untuk Laporan Akhir dan Laporan Shift
-let laporan = `
+    let laporan = "";
+
+    // Hanya tambahkan header jika ini laporan pertama
+    if (isFirstReport) {
+        laporan += `
 *LAPORAN FILLING YOGURT SLURP*
 *${jenisLaporan}*
 ------------------------------------------------
 Tanggal: ${tanggal}
 Shift/Waktu: ${waktuShift}
-Mesin: ${mesin}
 ------------------------------------------------
+Mesin: ${mesin}
 Qty Produksi: ${qtyProduksi} Kg
 Batch: ${batch}
 Varian Rasa: ${varianRasa}
 Expired Date: ${expiredDate}
 `;
-if (jenisLaporan === 'Laporan Akhir') {
-    laporan += `
-Start Filling: ${startFilling}
-Stop Filling: ${stopFilling}
+        isFirstReport = false;
+    } else {
+        laporan += `
+------------------------------------------------
+Mesin: ${mesin}
+Qty Produksi: ${qtyProduksi} Kg
+Batch: ${batch}
+Varian Rasa: ${varianRasa}
+Expired Date: ${expiredDate}
+`;
+    }
+    if (jenisLaporan === 'Laporan Akhir') {
+        laporan += `
+Start Filling: ${startdateFilling} - [${startFilling}]
+Stop Filling: ${stopdateFilling} - [${stopFilling}]
 Est Waktu Filling: ${estWaktuFilling}
 Act Waktu Filling: ${actWaktuFilling}
-`;}
-laporan += `
+`;
+    }
+
+    laporan += `
 Total Counter: ${totalCounter} Pcs
 Penggunaan Nitrogen: ${penggunaanNitrogen}
 Penggunaan Pita Coding: ${penggunaanPitaCoding} Pcs
 Sisa Pita Coding: ${sisaPitaCoding} Pcs
 Total Keranjang: ${totalKeranjang} Keranjang
+Note: ${keteranganKeranjang}
 Total Losses Product: ${totalLossesProduct} Kg
 Total Downtime: ${totalDowntime}
 Informasi Downtime: 
@@ -172,6 +198,7 @@ ${informasiDowntime}
 }
 
 
+
 function send_report() {
     const hasilLaporanDiv = document.getElementById('hasil_laporan');
     
@@ -180,7 +207,7 @@ function send_report() {
 
     // Validasi jika tidak ada laporan yang akan dikirim
     if (!laporanText) {
-        alert("Tidak ada laporan untuk dikirim.");
+        Swal.fire(`Tidak ada laporan untuk di kirim!`);
         return;
     }
 
@@ -217,6 +244,10 @@ document.getElementById('jenis_laporan').addEventListener('change', toggleFillin
 
 // Panggil fungsi calculateEstimatedFillingTime setelah halaman dimuat
 window.onload = function() {
+
+    Swal.fire("Hai para pekerja keras! silahkan isi form dengan benar yah :)");
+
+
     calculateEstimatedFillingTime();  // Kalkulasi Estimasi Waktu Filling
     calculateActWaktuFilling(); // Kalkulasi Aktual Waktu Filling
     calculateExpiredDate();  // Kalkulasi Expired Date
@@ -224,9 +255,20 @@ window.onload = function() {
 };
 
 
-let deferredPrompt; // Variabel untuk menyimpan event sebelum install
+// Variabel untuk menyimpan event sebelum install
+let deferredPrompt;
 
+// Ambil elemen tombol install
 const installBtn = document.getElementById('installBtn');
+
+// Cek di localStorage apakah aplikasi sudah diinstall
+if (localStorage.getItem('appInstalled') === 'true') {
+    // Jika aplikasi sudah diinstall, sembunyikan tombol
+    installBtn.style.display = 'none';
+} else {
+    // Jika belum diinstall, tampilkan tombol
+    installBtn.style.display = 'block';
+}
 
 // Event listener untuk menangkap event "beforeinstallprompt"
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -236,14 +278,16 @@ window.addEventListener('beforeinstallprompt', (e) => {
     // Simpan event yang tertunda
     deferredPrompt = e;
 
-    // Tampilkan tombol install
-    installBtn.classList.add('show');
+    // Tampilkan tombol install jika belum diinstall
+    if (localStorage.getItem('appInstalled') !== 'true') {
+        installBtn.style.display = 'block';
+    }
 });
 
 // Event listener untuk tombol install
 installBtn.addEventListener('click', async () => {
     // Sembunyikan tombol install
-    installBtn.classList.remove('show');
+    installBtn.style.display = 'none';
 
     if (deferredPrompt) {
         // Tampilkan prompt install ke pengguna
@@ -251,7 +295,7 @@ installBtn.addEventListener('click', async () => {
 
         // Tunggu sampai pengguna merespon prompt
         const { outcome } = await deferredPrompt.userChoice;
-        
+
         if (outcome === 'accepted') {
             console.log('User accepted the install prompt');
         } else {
@@ -266,5 +310,68 @@ installBtn.addEventListener('click', async () => {
 // Event listener untuk mendeteksi jika aplikasi sudah diinstal
 window.addEventListener('appinstalled', () => {
     console.log('Aplikasi telah terinstal');
-    installBtn.classList.remove('show'); // Sembunyikan tombol setelah instalasi
+
+    // Simpan status instalasi di localStorage
+    localStorage.setItem('appInstalled', 'true');
+    Swal.fire("Aplikasi sudah di install");
+
+    // Sembunyikan tombol setelah instalasi
+    installBtn.style.display = 'none';
 });
+
+
+// Ambil elemen modal dan tombol
+const feedbackBtn = document.getElementById('feedback');
+const modal = document.getElementById('feedbackModal');
+const closeModal = document.getElementById('closeModal');
+const sendBugReportBtn = document.getElementById('sendBugReport');
+const bugReportText = document.getElementById('bugReportText');
+
+// Tampilkan modal ketika tombol feedback ditekan
+feedbackBtn.addEventListener('click', () => {
+    modal.style.display = 'block';
+});
+
+// Tutup modal ketika tombol 'x' ditekan
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+// Tutup modal jika pengguna mengklik di luar konten modal
+window.addEventListener('click', (event) => {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Kirim bug report ke WhatsApp
+sendBugReportBtn.addEventListener('click', () => {
+    const bugReport = bugReportText.value.trim(); // Ambil isi textarea
+
+    if (!bugReport) {
+        Swal.fire("Harap masukan deskripsi");
+        return;
+    }
+
+    // Pesan otomatis sebelum isi bug report
+    const autoMessage = "Halo Bang Jago, ini ada bug atau fitur yang belum ditambahkan.\n\n";
+
+    // Gabungkan pesan otomatis dengan isi textarea
+    const fullMessage = `${autoMessage}${bugReport}`;
+
+    // Encode teks laporan agar sesuai dengan format URL dan WhatsApp
+    const encodedBugReport = encodeURIComponent(fullMessage)
+        .replace(/%20/g, '+')  // Ganti spasi dengan plus
+        .replace(/%0A/g, '%0A');  // Pertahankan newline agar sesuai dengan format teks WhatsApp
+    
+    // URL untuk membuka WhatsApp Web dengan pesan yang sudah dikodekan
+    const whatsappURL = `https://wa.me/+6289691213179?text=${encodedBugReport}`;
+
+    // Buka WhatsApp untuk mengirimkan pesan bug
+    window.open(whatsappURL, '_blank');
+
+    // Kosongkan textarea dan tutup modal setelah laporan dikirim
+    bugReportText.value = '';
+    modal.style.display = 'none';
+});
+
