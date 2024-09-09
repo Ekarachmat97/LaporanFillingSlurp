@@ -287,8 +287,8 @@ window.addEventListener('beforeinstallprompt', (e) => {
 // Event listener untuk tombol install
 installBtn.addEventListener('click', async () => {
     // Sembunyikan tombol install
-    installBtn.style.display = 'none';
     Swal.fire("Jika aplikasi tidak terinstall silahkan pergi ke menu di browser kamu lalu pilih (tambahkan ke layar utama)");
+    installBtn.style.display = 'none';
     if (deferredPrompt) {
         // Tampilkan prompt install ke pengguna
         deferredPrompt.prompt();
