@@ -124,10 +124,63 @@ textarea {
 .hidden {
     display: none;
 }
-.install {
-    position: fixed;
-    bottom: 40px;
-    right: 20px;
-    z-index: 1000;
- 
+
+.show{
+    display: none;
 }
+.install {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 20px;
+   
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0); 
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .button-85 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+  }
+
+  .button-85:hover {
+    background-color: #45a049;
+  }
