@@ -150,42 +150,42 @@ function add_report() {
 Tanggal: ${tanggal}
 Shift/Waktu: ${waktuShift}
 ------------------------------------------------
-Mesin: ${mesin}
-Qty Produksi: ${qtyProduksi} Kg
-Batch: ${batch}
-Varian Rasa: ${varianRasa}
-Expired Date: ${expiredDate}
+Mesin :${mesin}
+Qty Produksi :${qtyProduksi} Kg
+Batch :${batch}
+Varian Rasa :${varianRasa}
+Expired Date :${expiredDate}
 `;
         isFirstReport = false;
     } else {
         laporan += `
 ------------------------------------------------
-Mesin: ${mesin}
-Qty Produksi: ${qtyProduksi} Kg
-Batch: ${batch}
-Varian Rasa: ${varianRasa}
-Expired Date: ${expiredDate}
+Mesin :${mesin}
+Qty Produksi :${qtyProduksi} Kg
+Batch :${batch}
+Varian Rasa :${varianRasa}
+Expired Date :${expiredDate}
 `;
     }
     if (jenisLaporan === 'Laporan Akhir') {
         laporan += `
-Start Filling: ${startdateFilling} - [${startFilling}]
-Stop Filling: ${stopdateFilling} - [${stopFilling}]
-Est Waktu Filling: ${estWaktuFilling}
-Act Waktu Filling: ${actWaktuFilling}
+Start Filling : ${startdateFilling} - [${startFilling}]
+Stop Filling : ${stopdateFilling} - [${stopFilling}]
+Est Waktu Filling : ${estWaktuFilling}
+Act Waktu Filling : ${actWaktuFilling}
 `;
     }
 
     laporan += `
-Total Counter: ${totalCounter} Pcs
-Penggunaan Nitrogen: ${penggunaanNitrogen}
-Penggunaan Pita Coding: ${penggunaanPitaCoding} Pcs
-Sisa Pita Coding: ${sisaPitaCoding} Pcs
-Total Keranjang: ${totalKeranjang} Keranjang
-Note: ${keteranganKeranjang}
-Total Losses Product: ${totalLossesProduct} Kg
-Total Downtime: ${totalDowntime}
-Informasi Downtime: 
+Total Counter : ${totalCounter} Pcs
+Penggunaan Nitrogen : ${penggunaanNitrogen}
+Penggunaan Pita Coding : ${penggunaanPitaCoding} Pcs
+Sisa Pita Coding : ${sisaPitaCoding} Pcs
+Total Keranjang : ${totalKeranjang} Keranjang
+Note : ${keteranganKeranjang}
+Total Losses Product : ${totalLossesProduct} Kg
+Total Downtime : ${totalDowntime}
+Informasi Downtime : 
 ${informasiDowntime}
 ------------------------------------------------
 `;
@@ -242,12 +242,42 @@ function toggleFillingFields() {
 // Panggil toggleFillingFields ketika jenis laporan diubah
 document.getElementById('jenis_laporan').addEventListener('change', toggleFillingFields);
 
+
+// Fungsi untuk menyimpan laporan ke LocalStorage
+function saveReportToLocal() {
+    const hasilLaporanDiv = document.getElementById('hasil_laporan');
+    const laporanText = hasilLaporanDiv.textContent.trim();
+
+    if (!laporanText) {
+        alert("Tidak ada laporan untuk disimpan.");
+        return;
+    }
+
+    // Simpan laporan ke LocalStorage
+    localStorage.setItem('savedReport', laporanText);
+    alert("Laporan berhasil disimpan!");
+}
+
+// Fungsi untuk memuat laporan yang disimpan dari LocalStorage
+function loadReportFromLocal() {
+    const savedReport = localStorage.getItem('savedReport');
+
+    if (savedReport) {
+        // Jika ada laporan yang tersimpan, tampilkan di elemen laporan
+        const hasilLaporanDiv = document.getElementById('hasil_laporan');
+        hasilLaporanDiv.textContent = savedReport;
+    }
+}
+
+// Event listener untuk tombol simpan
+document.getElementById('saveBtn').addEventListener('click', saveReportToLocal);
+
 // Panggil fungsi calculateEstimatedFillingTime setelah halaman dimuat
 window.onload = function() {
 
     Swal.fire("Hai para pekerja keras! silahkan isi form dengan benar yah :)");
 
-
+    loadReportFromLocal();
     calculateEstimatedFillingTime();  // Kalkulasi Estimasi Waktu Filling
     calculateActWaktuFilling(); // Kalkulasi Aktual Waktu Filling
     calculateExpiredDate();  // Kalkulasi Expired Date
@@ -287,8 +317,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
 // Event listener untuk tombol install
 installBtn.addEventListener('click', async () => {
     // Sembunyikan tombol install
-    Swal.fire("Jika aplikasi tidak terinstall silahkan pergi ke menu di browser kamu lalu pilih (tambahkan ke layar utama)");
     installBtn.style.display = 'none';
+    Swal.fire("Jika aplikasi tidak terinstall silahkan pergi ke menu di browser kamu lalu pilih (tambahkan ke layar utama)");
+
     if (deferredPrompt) {
         // Tampilkan prompt install ke pengguna
         deferredPrompt.prompt();
